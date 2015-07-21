@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for $arg in $@; do
+for arg in $@; do
   case $arg in
     --target )
       target=$2
