@@ -1,7 +1,31 @@
 #!/bin/bash
 
+for $arg in $@; do
+  case $arg in
+    --target )
+      target=$2
+      shift
+      shift
+      ;;
+    --release )
+      target="Release"
+      shift
+      ;;
+    --debug )
+      target="Debug"
+      shift
+      ;;
+  esac
+done
+
 # Build project
-xbuild KeePassFaviconDownloader.sln
+if [[ -n target ]]; then
+  # http://stackoverflow.com/questions/17628660/how-can-i-use-xbuild-to-build-release-binary
+  xbuild /p:Configuration=$target KeePassFaviconDownloader.sln
+else
+  # Build defaults
+  xbuild KeePassFaviconDownloader.sln
+fi
 
 # Create temporary directory
 KPTempDir="./plugin"
