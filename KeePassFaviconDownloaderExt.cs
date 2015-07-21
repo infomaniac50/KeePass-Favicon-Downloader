@@ -516,7 +516,7 @@ namespace KeePassFaviconDownloader
             try
             {
                 Bitmap imgNew = new Bitmap(16, 16);
-                imgNew.SetResolution(img.HorizontalResolution, img.VerticalResolution);
+                // imgNew.SetResolution(img.HorizontalResolution, img.VerticalResolution);
                 using (Graphics g = Graphics.FromImage(imgNew))
                 {
                     // set the resize quality modes to high quality
