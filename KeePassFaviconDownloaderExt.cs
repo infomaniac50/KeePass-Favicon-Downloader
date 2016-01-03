@@ -256,23 +256,10 @@ namespace KeePassFaviconDownloader
                     return;
                 }
 
-                MemoryStream ms = null;
-                Uri lastURI = getFromFaviconExplicitLocation(fullURI, ref ms, ref message);
-                bool success = (lastURI != null) && lastURI.OriginalString.Equals("http://success");
+                var favicon = new Elmah.Io.FaviconLoader.Favicon();
+                var faviconUrl = favicon.Load(fullURI);
 
-                if (!success)
-                {
-                    success = getFavicon(new Uri((lastURI == null) ? fullURI : lastURI, "/favicon.ico"), ref ms, ref message);
-                }
-
-                if (!success)
-                    return;
-
-                // If we found an icon then we don't care whether one particular download method failed.
-                message = "";
-
-                byte[] msByteArray = ms.ToArray();
-
+                
                 foreach (PwCustomIcon item in m_host.Database.CustomIcons)
                 {
                     // re-use existing custom icon if it's already in the database
