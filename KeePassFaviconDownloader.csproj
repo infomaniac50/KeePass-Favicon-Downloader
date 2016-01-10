@@ -83,7 +83,6 @@
   <ItemGroup>
     <Compile Include="KeePassFaviconDownloaderExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FaviconEntryList.cs" />
     <Compile Include="FaviconDownload.cs" />
     <Compile Include="Favicons.cs" />
   </ItemGroup>
