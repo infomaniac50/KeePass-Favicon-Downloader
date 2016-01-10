@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1385D32-3E46-4452-9A3D-680A4B3ECF3F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>KeePassFaviconDownloaderTest</RootNamespace>
+    <AssemblyName>KeePassFaviconDownloaderTest</AssemblyName>
+    <StartupObject>KeePassFaviconDownloaderTest.DummyMain</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\KeePass2.x\KeePass\KeePass.csproj">
+      <Project>{10938016-DEE2-4A25-9A5A-8FD3444379CA}</Project>
+      <Name>KeePass</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeePassFaviconDownloader.csproj">
+      <Project>{4C1BB6F8-D2CD-49C2-9053-21705681356C}</Project>
+      <Name>KeePassFaviconDownloader</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DummyMain.cs" />
+  </ItemGroup>
+</Project>
