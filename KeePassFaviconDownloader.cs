@@ -23,23 +23,24 @@
 
 namespace KeePassFaviconDownloader
 {
+    using KeePass.Forms;
+    using KeePass.Plugins;
+    using KeePassLib;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-    using KeePass.Forms;
-    using KeePass.Plugins;
-    using KeePassLib;
 
     //
     // Favicons.cs
-    public class Favicons
+    public sealed partial class KeePassFaviconDownloaderExt : Plugin
     {
         List<ErrorMessage> errorList;
         List<Task<FaviconDownload>> taskList;
         StatusProgressForm progressForm;
         float overallProgress;
         readonly IPluginHost m_host;
+        private CancellationTokenSource cancelTokenSource;
 
         public Favicons(IPluginHost m_host)
         {
@@ -61,8 +62,16 @@ namespace KeePassFaviconDownloader
             public readonly string Url;
         }
 
-        void OnProgressChanged(FaviconDownload download) {
-            
+        void OnProgressChanged(FaviconDownload download)
+        {
+            if (progressForm.Visible)
+            {
+                foreach (Task<FaviconDownload> downloadTask in taskList)
+                {
+
+                }
+                progressForm.SetProgress(download.Progress);
+            }
         }
 
         public async void DownloadAll(KeePassLib.Collections.PwObjectList<PwEntry> entries)
@@ -72,7 +81,7 @@ namespace KeePassFaviconDownloader
 
             errorList = new List<ErrorMessage>();
             taskList = new List<Task<FaviconDownload>>();
-            var cancelTokenSource = new CancellationTokenSource();
+            cancelTokenSource = new CancellationTokenSource();
 
             foreach (PwEntry pwe in entries)
             {
@@ -81,13 +90,10 @@ namespace KeePassFaviconDownloader
                 taskList.Add(faviconDownload.DownloadTask(cancelTokenSource.Token));
             }
 
+            progressForm.FormClosing += progressForm_FormClosing;
             foreach (Task<FaviconDownload> downloadTask in taskList)
             {
-                if (progressForm.UserCancelled)
-                {
-                    cancelTokenSource.Cancel();
-                    break;
-                }
+
 
                 FaviconDownload faviconDownloader = await downloadTask;
 
@@ -112,7 +118,16 @@ namespace KeePassFaviconDownloader
             m_host.MainWindow.UpdateTrayIcon();
         }
 
-        public void ShowErrors() {
+        void progressForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (progressForm.UserCancelled)
+            {
+                cancelTokenSource.Cancel();
+            }
+        }
+
+        public void ShowErrors()
+        {
             //            if (errorMessage != "")
             //            {
             //                if (errorCount == 1)

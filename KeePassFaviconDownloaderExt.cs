@@ -29,7 +29,7 @@ using KeePassLib;
 
 namespace KeePassFaviconDownloader
 {
-    public sealed class KeePassFaviconDownloaderExt : Plugin
+    public sealed partial class KeePassFaviconDownloaderExt : Plugin
     {
         // The plugin remembers its host in this variable.
         IPluginHost m_host;
